@@ -46,6 +46,8 @@ export default class Ipad extends Component {
 					<div class={ style.city }>{ this.state.currentCity }</div>
 					<div class={ style.country }>{ this.state.currentCountry }</div>
 					<div class={ style.conditions }>{ this.state.cond }</div>
+					<div class={ style.conditions }>{ this.state.elevate }</div>
+					<div class={ style.conditions }>{ this.state.wind }</div>
 					<span class={ style.temperature }>{ this.state.temp }</span>
 				</div>
 				<div class={ style.details }></div>
@@ -61,13 +63,19 @@ export default class Ipad extends Component {
 		var country = parsed_json['current_observation']['display_location']['country'];
 		var temp_c = parsed_json['current_observation']['temp_c'];
 		var conditions = parsed_json['current_observation']['weather'];
+		var elevation = parsed_json['current_observation']['display_location']['elevation'];
+		var windDeg = parsed_json['current_observation']['wind_degrees'];
+
 
 		// set the states for fields so they could be rendered later on
 		this.setState({
 			currentCity: city,
 			currentCountry: country,
-			temp: temp_c,
-			cond : conditions
+			temp: Math.round(temp_c),
+			cond : conditions,
+			elevate : elevation,
+			wind : windDeg
+			
 		});      
 	}
 }
