@@ -7,7 +7,7 @@ import style_iphone from '../button/style_iphone';
 import $ from 'jquery';
 // import the Button component
 import Button from '../button';
-//import Chart from '../chart';
+import Chart from '../chart';
 
 export default class Iphone extends Component {
 //var Iphone = React.createClass({
