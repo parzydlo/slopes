@@ -9,6 +9,8 @@ import $ from 'jquery';
 import Button from '../button';
 // import the Chart component
 import Chart from '../chart';
+// import the Navbar component
+import Navbar from '../navbar';
 	
 export default class Home extends Component {
 
@@ -70,11 +72,7 @@ export default class Home extends Component {
                 </div>
                 <div class={ style.details }></div>
                 <Chart />
-                <div class="nav nav-fill btn-group-3">
-                    <a class="btn btn-light" href="#">Home</a>
-                    <a class="btn btn-light" href="#">Favourites</a>
-                    <a class="btn btn-light" href="#">Explore</a>
-                </div>
+                <Navbar />
             </div>
         );
     }
