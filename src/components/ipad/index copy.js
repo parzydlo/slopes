@@ -61,11 +61,10 @@ export default class Ipad extends Component {
 			<div class={ style.container }>
 				<div class={ style.header }>
 					<select id = "place" onchange = { this.fetchWeatherData }>
-					 	<optgroup label="Locations">
+					 		<option value ="" disabled>Location</option>
 						 	<option value="GB/London">UK</option>
 							<option value="PL/Warsaw">Poland</option>
 							<option value="IT/Milan">Italy</option>
-						</optgroup>
 					</select>
 				</div>
 				<div class={ style.details }></div>
@@ -82,7 +81,7 @@ export default class Ipad extends Component {
 		var country = parsed_json['current_observation']['display_location']['country'];
 		var temp_c = parsed_json['current_observation']['temp_c'];
 		var conditions = parsed_json['current_observation']['weather'];
-		var windmph = parsed_json['current_observation']['wind_mph'];
+		var wind = parsed_json['current_observation']['wind_mph'];
 
 		// set the states for fields so they could be rendered later on
 		this.setState({
@@ -90,7 +89,8 @@ export default class Ipad extends Component {
 			currentCountry: country,
 			temp: temp_c,
 			cond: conditions,
-			windmph: wind_mph
+			cond: conditions,
+			wind: wind_mph
 		});      
 	}
 }
