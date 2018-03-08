@@ -53,9 +53,11 @@
                     <h5> Welcome to Favourites! </h5>
                         <select id = "place" onchange = { this.fetchWeatherData }>
                      		<option selected = "true" disabled>Location</option>
-                         	<option value="GB/London">UK</option>
-                            <option value="PL/Warsaw">Poland</option>
-                            <option value="IT/Milan">Italy</option>
+                         	<option value="CH/St._Moritz">St. Moritz, Switzerland</option>
+                            <option value="CH/Gstaad">Gstaad, Switzerland</option>
+                            <option value="IT/Cortina_d'Ampezzo">Cortina d&#39;Ampezzo, Italy</option>
+                            <option value="FR/Chamonix">Chamonix-Mont Blanc, France</option>
+                            <option value="FR/Val_Thorens">Val Thorens, France</option>
                         </select>
                     </div>
                     
@@ -81,7 +83,7 @@
             // set states for fields so they could be rendered later on
             this.setState({
                 locate: location,
-                temp: temp_c,
+                temp: Math.round(temp_c),
                 cond : conditions
             });      
         }
