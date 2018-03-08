@@ -47,7 +47,7 @@ export default class Home extends Component {
 		// set states for fields so they could be rendered later on
 		this.setState({
 			locate: location,
-			temp: temp_c,
+			temp: Math.round(temp_c),
 			cond : conditions,
             precip : precipitation
 		});      
