@@ -48,9 +48,11 @@
             // display all weather data
             return (
                 <div class={ style.container }>
-                    <div class={ style.header }>
+                
+                    <div class={ style.header}>
+                    <h5> Welcome to Favourites! </h5>
                         <select id = "place" onchange = { this.fetchWeatherData }>
-                     		<option value =" " disabled>Location</option>
+                     		<option selected = "true" disabled>Location</option>
                          	<option value="GB/London">UK</option>
                             <option value="PL/Warsaw">Poland</option>
                             <option value="IT/Milan">Italy</option>
