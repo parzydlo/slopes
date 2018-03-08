@@ -65,6 +65,7 @@
                     <div class={ style.city }>{ this.state.locate }</div>
                     <div class={ style.conditions }>{ this.state.cond }</div>
                     <span class={ tempStyles }>{ this.state.temp }</span>
+                    <div class={ style.conditions }>{ this.state.windkph }</div>
                     
                     <Navbar />
                 
@@ -79,12 +80,14 @@
             var location = parsed_json['current_observation']['display_location']['city'];
             var temp_c = parsed_json['current_observation']['temp_c'];
             var conditions = parsed_json['current_observation']['weather'];
+            var wind = parsed_json['current_observation']['wind_kph'];
 
             // set states for fields so they could be rendered later on
             this.setState({
                 locate: location,
                 temp: Math.round(temp_c),
-                cond : conditions
+                cond : conditions,
+                windkph : wind + " kph"
             });      
         }
     }
