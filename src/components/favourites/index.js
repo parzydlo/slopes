@@ -40,6 +40,26 @@
             //this.setState({ display: false });
         }
         
+        fetchWeatherData2 = () => {
+            var e = document.getElementById("place").value;
+            //var strUser = e.options[e.selectedIndex].text;
+            var url = "http://api.wunderground.com/api/b61e654874383964/yesterday/q/";
+            
+            
+            // API URL with a structure of : http://api.wunderground.com/api/key/feature/q/country-code/city.json
+             url += e +".json";
+            
+            $.ajax({
+                url: url,
+                dataType: "jsonp",
+                success : this.parseResponse2,
+                error : function(req, err){ console.log('API call failed ' + err); }
+            })
+            // once the data grabbed, hide the button
+            //this.setState({ display: false });
+        }
+
+        
         // the main render method for the iphone component
         render() {
             // check if temperature data is fetched, if so add the sign styling to the page
@@ -54,7 +74,6 @@
                         <select id = "place" onchange = { this.fetchWeatherData }>
                      		<option selected = "true" disabled>Location</option>
                          	<option value="CH/St._Moritz">St. Moritz, Switzerland</option>
-                            <option value="CH/Gstaad">Gstaad, Switzerland</option>
                             <option value="IT/Cortina_d'Ampezzo">Cortina d&#39;Ampezzo, Italy</option>
                             <option value="FR/Chamonix">Chamonix-Mont Blanc, France</option>
                             <option value="FR/Val_Thorens">Val Thorens, France</option>
@@ -62,10 +81,14 @@
                     </div>
                     
                     
-                    <div class={ style.city }>{ this.state.locate }</div>
-                    <div class={ style.conditions }>{ this.state.cond }</div>
-                    <span class={ tempStyles }>{ this.state.temp }</span>
-                    <div class={ style.conditions }>{ this.state.windkph }</div>
+                    <div class={ style.city }>{this.state.locate}
+                    </div>
+                    <div class={ style.conditions }>{this.state.cond}
+                    <br/>{ this.state.windkph }
+                    <br/>{ this.state.precip }
+                    </div>
+                    <span class={ tempStyles }>{ this.state.temp} </span>
+                                        
                     
                     <Navbar />
                 
@@ -81,13 +104,19 @@
             var temp_c = parsed_json['current_observation']['temp_c'];
             var conditions = parsed_json['current_observation']['weather'];
             var wind = parsed_json['current_observation']['wind_kph'];
+            var prec = parsed_json['current_observation']['precip_today_in']
+    
 
             // set states for fields so they could be rendered later on
             this.setState({
                 locate: location,
                 temp: Math.round(temp_c),
                 cond : conditions,
-                windkph : wind + " kph"
+                windkph : wind + " kph",
+                precip: prec + " inches"
             });      
         }
+        
+        
+        
     }
