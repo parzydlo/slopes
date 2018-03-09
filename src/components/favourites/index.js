@@ -19,16 +19,22 @@
             // button display state
             //this.setState({ display: true });
         }
+        
+        updateData =()=>{
+           this.fetchWeatherData();
+            //alert("data got");
+            this.fetchYData();
+        }
 
         // a call to fetch weather data via wunderground
         fetchWeatherData = () => {
-            var e = document.getElementById("place").value;
+            var e1 = document.getElementById("place").value;
             //var strUser = e.options[e.selectedIndex].text;
             var url = "http://api.wunderground.com/api/b61e654874383964/conditions/q/";
             
             
             // API URL with a structure of : http://api.wunderground.com/api/key/feature/q/country-code/city.json
-             url += e +".json";
+             url += e1 +".json";
             
             $.ajax({
                 url: url,
@@ -40,7 +46,7 @@
             //this.setState({ display: false });
         }
         
-        fetchWeatherData2 = () => {
+        fetchYData = () => {
             var e = document.getElementById("place").value;
             //var strUser = e.options[e.selectedIndex].text;
             var url = "http://api.wunderground.com/api/b61e654874383964/yesterday/q/";
@@ -48,11 +54,27 @@
             
             // API URL with a structure of : http://api.wunderground.com/api/key/feature/q/country-code/city.json
              url += e +".json";
-            
+            //alert(url);
             $.ajax({
                 url: url,
                 dataType: "jsonp",
-                success : this.parseResponse2,
+                success : function(parsed_json){
+                   // alert("run pt2");
+                    var s = parsed_json['history']['snowdepthi'];
+                   
+                    if (s==null)
+                    {
+                        this.setState({
+                           snow: "unavalable"  });      
+
+                    }
+                    else {
+                        this.setState({
+                            snow: "avalable"  });  
+                    }
+                    
+                    
+                },
                 error : function(req, err){ console.log('API call failed ' + err); }
             })
             // once the data grabbed, hide the button
@@ -71,7 +93,7 @@
                 
                     <div class={ style.header}>
                     <h5> Welcome to Favourites! </h5>
-                        <select id = "place" onchange = { this.fetchWeatherData }>
+                        <select id = "place" onchange = { this.updateData }>
                      		<option selected = "true" disabled>Location</option>
                          	<option value="CH/St._Moritz">St. Moritz, Switzerland</option>
                             <option value="IT/Cortina_d'Ampezzo">Cortina d&#39;Ampezzo, Italy</option>
@@ -86,6 +108,7 @@
                     <div class={ style.conditions }>{this.state.cond}
                     <br/>{ this.state.windkph }
                     <br/>{ this.state.precip }
+                    <br/>{this.state.snow}
                     </div>
                     <span class={ tempStyles }>{ this.state.temp} </span>
                                         
@@ -104,7 +127,7 @@
             var temp_c = parsed_json['current_observation']['temp_c'];
             var conditions = parsed_json['current_observation']['weather'];
             var wind = parsed_json['current_observation']['wind_kph'];
-            var prec = parsed_json['current_observation']['precip_today_in']
+            var prec = parsed_json['current_observation']['precip_today_in'];
     
 
             // set states for fields so they could be rendered later on
@@ -112,8 +135,9 @@
                 locate: location,
                 temp: Math.round(temp_c),
                 cond : conditions,
-                windkph : wind + " kph",
-                precip: prec + " inches"
+                windkph : "Wind Speed: "+wind + " kph",
+                precip: "current snow falling: "+ prec + " inches",
+                snow: "Snow Depth: Unavaliable"
             });      
         }
         
