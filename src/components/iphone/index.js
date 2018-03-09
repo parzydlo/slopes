@@ -19,6 +19,8 @@ import Explore from '../explore';
 
 export default class Iphone extends Component {
 	render() {
+        // using preact-router to assign components (pages)
+        // to specific URLs
 		return (
             <div>
                 <Router>

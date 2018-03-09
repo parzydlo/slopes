@@ -9,6 +9,7 @@ export default class Navbar extends Component {
     }
 
     render() {
+        // button used to switch between page components
         return (
             <div class="nav nav-fill btn-group-3">
                 <a class="btn btn-light" href="/">Home</a>

@@ -27,7 +27,8 @@ export default class Home extends Component {
         this.fetchHourlyForecastData();
 	}
 	
- whatDay = ()=> {
+    // parse current date
+    whatDay = ()=> {
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth()+1; //January is 0!
@@ -59,10 +60,9 @@ export default class Home extends Component {
             success : this.parseCurrent,
             error : function(req, err){ console.log('API call failed ' + err); }
         })
-        // once the data grabbed, hide the button
-        //this.setState({ display: false });
     }
 
+    // fetch hourly forecast for temp, snow and wind
     fetchHourlyForecastData = () => {
         var url = "http://api.wunderground.com/api/b61e654874383964/hourly/q/UK/London.json";
         $.ajax({
@@ -73,7 +73,9 @@ export default class Home extends Component {
         })
     }
 
+    // parses hourly forecast and sets component state
     parseHourly = (parsed_json) => {
+        // stringify the Object
         const bufferTemps = JSON.parse(JSON.stringify(this.state.temps));
         //alert(parsed_json['hourly_forecast'][0]['snow']['metric'])
         for (let i = 0; i < 7; i++) {
@@ -95,13 +97,14 @@ export default class Home extends Component {
         console.log(bufferTemps);
     }
 
+    // parses current conditions and sets component state
 	parseCurrent = (parsed_json) => {
 		var location = parsed_json['current_observation']['display_location']['city'];
 		var temp_c = parsed_json['current_observation']['temp_c'];
 		var conditions = parsed_json['current_observation']['weather'];
         var precipitation = "Snow: " + parsed_json['current_observation']['precip_today_metric'] + " cm";
 
-		// set states for fields so they could be rendered later on
+		// set states
 		this.setState({
 			locate: location,
 			temp: Math.round(temp_c),
@@ -114,7 +117,6 @@ export default class Home extends Component {
         alert("ASDF");
     }
 
-    // rendering a function when the button is clicked
     render() {
 		// check if temperature data is fetched, if so add the sign styling to the page
 		const tempStyles = this.state.temp ? `${style.temperature} ${style.filled}` : style.temperature;
@@ -122,7 +124,7 @@ export default class Home extends Component {
         return (
             <div class={ style.container }>
                 <div class={ style.header }>
-		<div class={ style.city }>{this.state.today}</div>
+                    <div class={ style.city }>{this.state.today}</div>
                     <div class={ style.city }>{ this.state.locate }</div>
                     <div class={ style.conditions }>{ this.state.cond }</div>
                     <span class={ tempStyles }>{ this.state.temp }</span>

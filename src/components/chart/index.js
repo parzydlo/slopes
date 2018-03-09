@@ -14,6 +14,10 @@ export default class Chart extends Component {
     render() {
         let t = this.props['temps'];
 
+        // make sure that props have been received
+        // only render when props are available
+        //
+        // render 3 different charts under bootstrap tabs
         const tempList = t && t.length ? (
             <div class={ style.chart }>
                 <nav>
