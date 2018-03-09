@@ -19,9 +19,11 @@ export default class Home extends Component {
 		super(props);
 		// temperature state
 		this.state.temp = "";
+        this.state.temps = [];
 		// button display state
 		this.setState({ display: false });
         this.fetchWeatherData();
+        this.fetchHourlyForecastData();
 	}
 
 	// a call to fetch weather data via wunderground
@@ -31,14 +33,40 @@ export default class Home extends Component {
         $.ajax({
             url: url,
             dataType: "jsonp",
-            success : this.parseResponse,
+            success : this.parseCurrent,
             error : function(req, err){ console.log('API call failed ' + err); }
         })
         // once the data grabbed, hide the button
         //this.setState({ display: false });
     }
 
-	parseResponse = (parsed_json) => {
+    fetchHourlyForecastData = () => {
+        var url = "http://api.wunderground.com/api/b61e654874383964/hourly/q/PL/Zakopane.json";
+        $.ajax({
+            url: url,
+            dataType: "jsonp",
+            success: this.parseHourly,
+            error: function(req, err){ console.log('API call failed ' + err); }
+        })
+    }
+
+    parseHourly = (parsed_json) => {
+        const bufferTemps = JSON.parse(JSON.stringify(this.state.temps));
+        for (let i = 0; i < 7; i++) {
+            const h = parsed_json['hourly_forecast'][i]['FCTTIME']['hour'];
+            const t = parsed_json['hourly_forecast'][i]['temp']['metric'];
+            const pair = {
+                hour: h, 
+                temperature: t
+            };
+            bufferTemps.push(pair);
+        }
+        this.setState({
+            temps: bufferTemps
+        });
+    }
+
+	parseCurrent = (parsed_json) => {
 		var location = parsed_json['current_observation']['display_location']['city'];
 		var temp_c = parsed_json['current_observation']['temp_c'];
 		var conditions = parsed_json['current_observation']['weather'];
@@ -71,7 +99,7 @@ export default class Home extends Component {
                     <span>{ this.state.precip }</span>
                 </div>
                 <div class={ style.details }></div>
-                <Chart />
+                <Chart temps={this.state.temps}/>
                 <Navbar />
             </div>
         );
