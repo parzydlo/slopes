@@ -52,18 +52,22 @@ export default class Home extends Component {
 
     parseHourly = (parsed_json) => {
         const bufferTemps = JSON.parse(JSON.stringify(this.state.temps));
+        //alert(parsed_json['hourly_forecast'][0]['snow']['metric'])
         for (let i = 0; i < 7; i++) {
             const h = parsed_json['hourly_forecast'][i]['FCTTIME']['hour'];
             const t = parsed_json['hourly_forecast'][i]['temp']['metric'];
-            const pair = {
+            const s = parsed_json['hourly_forecast'][i]['snow']['metric'];
+            const set = {
                 hour: h, 
-                temperature: t
+                temperature: t,
+                snow: s
             };
-            bufferTemps.push(pair);
+            bufferTemps.push(set);
         }
         this.setState({
             temps: bufferTemps
         });
+        console.log(bufferTemps);
     }
 
 	parseCurrent = (parsed_json) => {

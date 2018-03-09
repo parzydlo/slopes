@@ -41,7 +41,7 @@
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.22.0",
     "isparta-loader": "^2.0.0",
-    "jquery": "3.1.1",
+    "jquery": "^3.1.1",
     "json-loader": "^0.5.4",
     "karma": "^1.0.0",
     "karma-chai": "^0.1.0",
@@ -73,7 +73,6 @@
     "webpack-dev-server": "^1.15.0"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0",
     "popper": "^1.0.1",
     "preact": "^6.0.0",
     "preact-compat": "^3.0.0",
