@@ -22,9 +22,32 @@ export default class Home extends Component {
         this.state.temps = [];
 		// button display state
 		this.setState({ display: false });
+		this.whatDay();
         this.fetchWeatherData();
         this.fetchHourlyForecastData();
 	}
+	
+ whatDay = ()=> {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+
+        today = dd + '/' + mm + '/' + yyyy;
+        //alert(today);
+        this.setState({
+            today: today
+        });
+      
+    }
 
 	// a call to fetch weather data via wunderground
     fetchWeatherData = () => {
@@ -97,6 +120,7 @@ export default class Home extends Component {
         return (
             <div class={ style.container }>
                 <div class={ style.header }>
+		<div class={ style.city }>{this.state.today}</div>
                     <div class={ style.city }>{ this.state.locate }</div>
                     <div class={ style.conditions }>{ this.state.cond }</div>
                     <span class={ tempStyles }>{ this.state.temp }</span>
