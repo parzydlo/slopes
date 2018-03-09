@@ -52,7 +52,7 @@ export default class Home extends Component {
 	// a call to fetch weather data via wunderground
     fetchWeatherData = () => {
         // API URL with a structure of : ttp://api.wunderground.com/api/key/feature/q/country-code/city.json
-        var url = "http://api.wunderground.com/api/b61e654874383964/conditions/q/PL/Zakopane.json";
+        var url = "http://api.wunderground.com/api/b61e654874383964/conditions/q/UK/London.json";
         $.ajax({
             url: url,
             dataType: "jsonp",
@@ -64,7 +64,7 @@ export default class Home extends Component {
     }
 
     fetchHourlyForecastData = () => {
-        var url = "http://api.wunderground.com/api/b61e654874383964/hourly/q/PL/Zakopane.json";
+        var url = "http://api.wunderground.com/api/b61e654874383964/hourly/q/UK/London.json";
         $.ajax({
             url: url,
             dataType: "jsonp",
@@ -80,10 +80,12 @@ export default class Home extends Component {
             const h = parsed_json['hourly_forecast'][i]['FCTTIME']['hour'];
             const t = parsed_json['hourly_forecast'][i]['temp']['metric'];
             const s = parsed_json['hourly_forecast'][i]['snow']['metric'];
+            const w = parsed_json['hourly_forecast'][i]['wspd']['metric'];
             const set = {
                 hour: h, 
                 temperature: t,
-                snow: s
+                snow: s,
+                wind: w
             };
             bufferTemps.push(set);
         }
@@ -97,7 +99,7 @@ export default class Home extends Component {
 		var location = parsed_json['current_observation']['display_location']['city'];
 		var temp_c = parsed_json['current_observation']['temp_c'];
 		var conditions = parsed_json['current_observation']['weather'];
-        var precipitation = parsed_json['current_observation']['precip_today_metric'];
+        var precipitation = "Snow: " + parsed_json['current_observation']['precip_today_metric'] + " cm";
 
 		// set states for fields so they could be rendered later on
 		this.setState({
